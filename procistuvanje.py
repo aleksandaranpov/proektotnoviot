@@ -1,16 +1,15 @@
 import requests
 import re
-
+from cleanco import basename
 response =requests.get("http://127.0.0.1:5000/companies")
 companies= response.json()["companies"]
 cleaned_companies={}
 for company in companies:
-    re.sub(pattern="[^\w\s]",
+    name=re.sub(pattern="[^\w\s]",
            repl="",
            string = company["name"])
-    name =re.sub(r"LIMITED","", company["name"])
-    name =re.sub(r"LTD","", company["name"])
-
+    name =re.sub(r"LIMITED","", name)
+    name=basename(name)
     name = name.title()
 
     cleaned_companies={
